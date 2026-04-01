@@ -10,9 +10,9 @@ SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
 creds = Credentials.from_service_account_file("credentials.json", scopes=SCOPES)
 client = gspread.authorize(creds)
 
-# Open your sheet by name
-SHEET_NAME = "usd_php_logs"
-sheet = client.open(SHEET_NAME).sheet1
+# Open the sheet by ID (this guarantees correct file)
+SPREADSHEET_ID = "1Lu5GRAdLpnFUqePhYDaQOiUmd8ZudugAT9IwIdyXBZw"
+sheet = client.open_by_key(SPREADSHEET_ID).sheet1
 
 # -----------------------------
 # Fetch USD → PHP rate
