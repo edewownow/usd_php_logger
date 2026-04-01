@@ -5,6 +5,9 @@ on:
     - cron: "0 1 * * *"   # Runs daily at 1:00 UTC
   workflow_dispatch:
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   run-script:
     runs-on: ubuntu-latest
@@ -21,5 +24,9 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      - name: Create credentials.json
+        run: echo '${{ secrets.GOOGLE_CREDENTIALS }}' > credentials.json
+
       - name: Run script
         run: python usd_php_logger.py
+
