@@ -10,9 +10,8 @@ SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
 creds = Credentials.from_service_account_file("credentials.json", scopes=SCOPES)
 client = gspread.authorize(creds)
 
-# Open the sheet by ID (this guarantees correct file)
-SPREADSHEET_ID = "1Lu5GRAdLpnFUqePhYDaQOiUmd8ZudugAT9IwIdyXBZw"
-sheet = client.open_by_key(SPREADSHEET_ID).sheet1
+# Open your sheet by name
+sheet = client.open("usd_php_logs").sheet1
 
 # -----------------------------
 # Fetch USD → PHP rate
@@ -27,17 +26,13 @@ def get_usd_php_rate():
 # Main logging function
 # -----------------------------
 def log_rate():
-    try:
-        rate = get_usd_php_rate()
-        timestamp = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
+    rate = get_usd_php_rate()
+    timestamp = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
 
-        # Append row to Google Sheet
-        sheet.append_row([timestamp, rate])
+    # Append row to Google Sheet
+    sheet.append_row([timestamp, rate])
 
-        print(f"Logged: {timestamp} | USD to PHP: {rate}")
-
-    except Exception as e:
-        print("Error:", e)
+    print(f"Logged: {timestamp} | USD to PHP: {rate}")
 
 # Run the logger
 if __name__ == "__main__":
